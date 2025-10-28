@@ -8,7 +8,7 @@ Modern React-based frontend for the AI Voice Assistant with Speech Recognition a
 ```bash
 cd frontend
 npm install
-```
+``` 
 
 ### 2. Start the Development Server
 ```bash

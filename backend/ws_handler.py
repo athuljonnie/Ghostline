@@ -119,8 +119,11 @@ class VoiceAssistantManager:
             logger.error(f"Error loading agent config: {str(e)}")
             return {"system_prompt": "You are a helpful AI assistant.", "temperature": 0.7}
     
-    async def process_audio(self, session_id: str, audio_data: bytes) -> bytes:
-        """Complete pipeline: Audio → STT → LLM → TTS → Audio"""
+    async def process_audio(self, session_id: str, audio_data: bytes) -> tuple[str, str, bytes]:
+        """
+        Complete pipeline: Audio → STT → LLM → TTS → Audio
+        Returns: (transcription, ai_response_text, audio_bytes)
+        """
         session = self.active_sessions.get(session_id)
         if not session:
             raise ValueError(f"Session {session_id} not found")
@@ -132,7 +135,9 @@ class VoiceAssistantManager:
             logger.info(f"📝 Transcribed: {text}")
             
             if not text.strip():
-                return await self._generate_audio("I didn't hear anything. Could you please repeat?")
+                empty_msg = "I didn't hear anything. Could you please repeat?"
+                empty_audio = await self._generate_audio(empty_msg)
+                return "", empty_msg, empty_audio
             
             # Step 2: LLM Processing
             logger.info("🤖 Processing with LLM...")
@@ -144,12 +149,13 @@ class VoiceAssistantManager:
             audio_response = await self._generate_audio(ai_response)
             logger.info("✅ Audio generated successfully")
             
-            return audio_response
+            return text, ai_response, audio_response
             
         except Exception as e:
             logger.error(f"❌ Error in audio processing: {str(e)}")
-            error_audio = await self._generate_audio("I'm sorry, I encountered an error processing your request.")
-            return error_audio
+            error_msg = "I'm sorry, I encountered an error processing your request."
+            error_audio = await self._generate_audio(error_msg)
+            return "", error_msg, error_audio
     
     async def _transcribe_audio(self, audio_data: bytes) -> str:
         """Convert audio bytes to text using Faster-Whisper"""
@@ -281,11 +287,33 @@ async def handle_websocket(websocket: WebSocket, agent_name: str):
                 logger.info(f"📥 Received {len(data)} bytes of audio")
                 
                 # Process audio through complete pipeline
-                response_audio = await voice_manager.process_audio(session_id, data)
+                transcription, ai_response, response_audio = await voice_manager.process_audio(session_id, data)
                 
-                # Send audio response back
-                await websocket.send_bytes(response_audio)
-                logger.info(f"📤 Sent {len(response_audio)} bytes of audio response")
+                # Send transcription first
+                if transcription:
+                    await websocket.send_json({
+                        "type": "transcription",
+                        "text": transcription
+                    })
+                    logger.info(f"📤 Sent transcription: {transcription}")
+                
+                # Send AI response text
+                if ai_response:
+                    await websocket.send_json({
+                        "type": "response",
+                        "text": ai_response
+                    })
+                    logger.info(f"📤 Sent AI response: {ai_response}")
+                
+                # Send audio response
+                if response_audio:
+                    import base64
+                    audio_base64 = base64.b64encode(response_audio).decode('utf-8')
+                    await websocket.send_json({
+                        "type": "audio",
+                        "audio": audio_base64
+                    })
+                    logger.info(f"📤 Sent {len(response_audio)} bytes of audio response")
                 
             except WebSocketDisconnect:
                 logger.info(f"🔌 WebSocket disconnected for session {session_id}")
