@@ -1,0 +1,17 @@
+fastapi
+uvicorn[standard]
+langchain-core
+langchain-groq
+langchain
+pydantic
+pyyaml
+faster-whisper
+python-multipart
+asyncpg
+SQLAlchemy[asyncio]
+websockets
+numpy
+pyttsx3
+gtts
+soundfile
+aiofiles

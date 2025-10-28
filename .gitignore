@@ -1,0 +1,52 @@
+# --- Global ---
+.DS_Store
+*.log
+*.tmp
+*.swp
+*.bak
+*.mp3
+*.wav
+.env
+
+# --- Python / Backend ---
+backend/__pycache__/
+backend/**/*.pyc
+backend/.pytest_cache/
+backend/.coverage
+backend/.env
+backend/venv/
+backend/.venv/
+backend/temp/
+backend/tmp/
+backend/audio_tmp/
+backend/*.mp3
+backend/*.wav
+
+# Local model cache (if whisper/piper used later)
+models/
+backend/checkpoints/
+
+# --- Node / Frontend ---
+frontend/node_modules/
+frontend/.env
+frontend/.env.local
+frontend/.env.development
+frontend/.env.production
+frontend/.cache
+frontend/build/
+frontend/dist/
+frontend/coverage/
+
+# --- Docker ---
+data/
+volumes/
+*.pid
+
+# --- IDE and editor trash ---
+.vscode/
+.idea/
+*.sublime-workspace
+*.sublime-project
+
+# --- OS Trash ---
+Thumbs.db

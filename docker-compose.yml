@@ -1,0 +1,44 @@
+version: '3.9'
+services:
+  backend:
+    build: ./backend
+    container_name: ai-agent-backend
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./backend/agents:/app/agents
+      - ./models:/root/.cache
+    depends_on:
+      - db
+    environment:
+      POSTGRES_HOST: db
+      POSTGRES_PORT: 5432
+      POSTGRES_USER: aiuser
+      POSTGRES_PASSWORD: aipassword
+      POSTGRES_DB: aiproject
+      GROQ_API_KEY: ${GROQ_API_KEY}
+    command: uvicorn app:app --host 0.0.0.0 --port 8000 --reload
+
+  # frontend:
+  #   build: ./frontend
+  #   container_name: ai-agent-frontend
+  #   ports:
+  #     - "3000:3000"
+  #   depends_on:
+  #     - backend
+
+  db:
+    image: postgres:15
+    container_name: ai-agent-db
+    environment:
+      POSTGRES_USER: aiuser
+      POSTGRES_PASSWORD: aipassword
+      POSTGRES_DB: aiproject
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+volumes:
+  pgdata:
+    driver: local

@@ -1,0 +1,38 @@
+FROM python:3.11-slim
+
+# Set working directory
+WORKDIR /app
+
+# System dependencies (including pkg-config and build tools for PyAV)
+RUN apt-get update && apt-get install -y \
+    git \
+    ffmpeg \
+    libsndfile1 \
+    pkg-config \
+    gcc \
+    g++ \
+    make \
+    libavcodec-dev \
+    libavformat-dev \
+    libavutil-dev \
+    libavdevice-dev \
+    libavfilter-dev \
+    libswscale-dev \
+    libswresample-dev \
+    && rm -rf /var/lib/apt/lists/*
+
+# Copy requirements
+COPY requirements.txt /app/requirements.txt
+
+# Install Python dependencies
+RUN pip install --no-cache-dir --upgrade pip && \
+    pip install --no-cache-dir -r requirements.txt
+
+# Copy backend code
+COPY . /app
+
+# Expose port
+EXPOSE 8000
+
+# Default command
+CMD ["uvicorn", "app:app", "--host", "0.0.0.0", "--port", "8000"]

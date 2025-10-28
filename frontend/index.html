@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Voice Assistant</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🎤 AI Voice Assistant</h1>
+            <p class="subtitle">Powered by Faster-Whisper + Groq + Google TTS</p>
+        </header>
+
+        <div class="status-bar">
+            <div class="status-item">
+                <span class="status-label">Server:</span>
+                <span id="server-status" class="status-value offline">Disconnected</span>
+            </div>
+            <div class="status-item">
+                <span class="status-label">WebSocket:</span>
+                <span id="ws-status" class="status-value offline">Not Connected</span>
+            </div>
+            <div class="status-item">
+                <span class="status-label">Audio:</span>
+                <span id="audio-status" class="status-value offline">Not Recording</span>
+            </div>
+        </div>
+
+        <div class="main-content">
+            <!-- Control Panel -->
+            <div class="control-panel">
+                <div class="agent-selector">
+                    <label for="agent-select">Select Agent:</label>
+                    <select id="agent-select">
+                        <option value="assistant">Assistant (Default)</option>
+                        <option value="custom">Custom Agent</option>
+                    </select>
+                </div>
+
+                <button id="connect-btn" class="btn btn-primary">
+                    <span class="btn-icon">🔌</span>
+                    Connect to Server
+                </button>
+
+                <div class="recording-controls" id="recording-controls" style="display: none;">
+                    <button id="record-btn" class="btn btn-record">
+                        <span class="btn-icon">🎤</span>
+                        <span id="record-text">Hold to Talk</span>
+                    </button>
+                    <p class="hint">Press and hold the button while speaking</p>
+                </div>
+
+                <div class="upload-section">
+                    <label for="audio-upload" class="upload-label">
+                        <span class="btn-icon">📁</span>
+                        Or Upload Audio File
+                    </label>
+                    <input type="file" id="audio-upload" accept="audio/*" style="display: none;">
+                </div>
+            </div>
+
+            <!-- Conversation Display -->
+            <div class="conversation-container">
+                <h3>💬 Conversation</h3>
+                <div id="conversation" class="conversation"></div>
+                <div class="audio-player" id="audio-player-container" style="display: none;">
+                    <h4>🔊 AI Response Audio:</h4>
+                    <audio id="response-audio" controls></audio>
+                </div>
+            </div>
+
+            <!-- System Logs -->
+            <div class="logs-container">
+                <h3>📋 System Logs</h3>
+                <div id="logs" class="logs"></div>
+                <button id="clear-logs" class="btn btn-small">Clear Logs</button>
+            </div>
+        </div>
+
+        <footer>
+            <p>Pipeline: Microphone → Faster-Whisper → LangChain+Groq → Google TTS → WebSocket</p>
+        </footer>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
