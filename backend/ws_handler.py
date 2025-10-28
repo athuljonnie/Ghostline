@@ -9,7 +9,6 @@ import numpy as np
 
 from fastapi import WebSocket, WebSocketDisconnect
 from langchain_groq import ChatGroq
-# Removed langchain_core.messages import - using simple conversation history
 from faster_whisper import WhisperModel
 from gtts import gTTS
 import soundfile as sf
@@ -78,7 +77,7 @@ class VoiceAssistantManager:
             # Initialize Groq LLM for this session
             llm = ChatGroq(
                 groq_api_key=self.groq_api_key,
-                model_name="llama-3.1-8b-instant",  # Fast and reliable (replaces llama3-8b-8192)
+                model_name="llama-3.1-8b-instant", 
                 temperature=agent_config.get("temperature", 0.7),
                 max_tokens=512
             )
@@ -120,7 +119,7 @@ class VoiceAssistantManager:
             return {"system_prompt": "You are a helpful AI assistant.", "temperature": 0.7}
     
     async def process_audio(self, session_id: str, audio_data: bytes) -> tuple[str, str, bytes]:
-        """
+        """ 
         Complete pipeline: Audio → STT → LLM → TTS → Audio
         Returns: (transcription, ai_response_text, audio_bytes)
         """
