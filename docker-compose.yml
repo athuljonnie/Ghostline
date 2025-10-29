@@ -6,6 +6,7 @@ services:
     ports:
       - "8000:8000"
     volumes:
+      - ./backend/app:/app/app  # Mount app code for hot reload
       - ./backend/agents:/app/agents
       - ./models:/root/.cache
     depends_on:

@@ -4,6 +4,7 @@ langchain-core
 langchain-groq
 langchain
 pydantic
+pydantic-settings
 pyyaml
 faster-whisper
 python-multipart

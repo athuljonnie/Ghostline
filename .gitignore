@@ -18,6 +18,7 @@ backend/venv/
 backend/.venv/
 backend/temp/
 backend/tmp/
+backend/old_structure
 backend/audio_tmp/
 backend/*.mp3
 backend/*.wav
@@ -25,6 +26,7 @@ backend/*.wav
 # Local model cache (if whisper/piper used later)
 models/
 backend/checkpoints/
+backend/ignore.md
 
 # --- Node / Frontend ---
 frontend/node_modules/
