@@ -17,14 +17,18 @@ class Settings(BaseSettings):
     
     # API Keys
     GROQ_API_KEY: str = os.getenv("GROQ_API_KEY", "")
+    DEEPGRAM_API_KEY: Optional[str] = os.getenv("DEEPGRAM_API_KEY", None)
     
     # Database
     DATABASE_URL: str = "postgresql+asyncpg://aiuser:aipassword@db:5432/aiproject"
     
-    # AI Models
-    STT_MODEL: str = "base"  # Whisper model size
+    # AI Models - STT
+    STT_PROVIDER: str = "deepgram"  # "deepgram" or "whisper"
+    STT_MODEL: str = "base"  # Whisper model size (fallback)
     STT_DEVICE: str = "cpu"
     STT_COMPUTE_TYPE: str = "int8"
+    DEEPGRAM_MODEL: str = "nova-2"  # Deepgram model: nova-2, nova, base, enhanced
+    DEEPGRAM_LANGUAGE: str = "en"
     
     LLM_MODEL: str = "llama-3.1-8b-instant"
     LLM_TEMPERATURE: float = 0.7

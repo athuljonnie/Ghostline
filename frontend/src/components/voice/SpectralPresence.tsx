@@ -1,5 +1,9 @@
+/**
+ * Spectral presence visualization component
+ */
+
 import { useEffect, useState } from 'react';
-import { tokens } from '../tokens';
+import { tokens } from '../../constants/theme';
 
 interface SpectralPresenceProps {
   isActive: boolean;
@@ -13,21 +17,21 @@ export function SpectralPresence({ isActive, isListening, audioLevel = 0 }: Spec
   useEffect(() => {
     if (!isActive && !isListening) {
       const interval = setInterval(() => {
-        setWaves(prev => prev.map(() => Math.random() * 0.03));
+        setWaves((prev) => prev.map(() => Math.random() * 0.03));
       }, 2000);
       return () => clearInterval(interval);
     }
 
     if (isListening) {
       const interval = setInterval(() => {
-        setWaves(prev => prev.map(() => Math.random() * 0.15 + audioLevel * 0.3));
+        setWaves((prev) => prev.map(() => Math.random() * 0.15 + audioLevel * 0.3));
       }, 50);
       return () => clearInterval(interval);
     }
 
     if (isActive) {
       const interval = setInterval(() => {
-        setWaves(prev => prev.map(() => Math.random() * 0.4 + audioLevel * 0.6));
+        setWaves((prev) => prev.map(() => Math.random() * 0.4 + audioLevel * 0.6));
       }, 40);
       return () => clearInterval(interval);
     }
@@ -50,7 +54,9 @@ export function SpectralPresence({ isActive, isListening, audioLevel = 0 }: Spec
             style={{
               height: `${wave * 100}%`,
               opacity: baseOpacity + wave * 0.2,
-              transition: `all ${isActive ? tokens.motion.timing.fast : tokens.motion.timing.breath} ${tokens.motion.easing.liquidWeight}`,
+              transition: `all ${
+                isActive ? tokens.motion.timing.fast : tokens.motion.timing.breath
+              } ${tokens.motion.easing.liquidWeight}`,
               transitionDelay: `${i * 8}ms`,
             }}
           />

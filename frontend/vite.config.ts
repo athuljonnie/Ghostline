@@ -7,4 +7,16 @@ export default defineConfig({
   optimizeDeps: {
     exclude: ['lucide-react'],
   },
+  server: {
+    host: '0.0.0.0',
+    port: 5173,
+    watch: {
+      usePolling: true, // Enable polling for Docker on Windows
+      interval: 100,
+    },
+    hmr: {
+      host: 'localhost',
+      port: 5173,
+    },
+  },
 });

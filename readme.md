@@ -698,7 +698,7 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 
 - **Issues**: [GitHub Issues](https://github.com/athuljonnie/Ghostline/issues)
 - **Discussions**: [GitHub Discussions](https://github.com/athuljonnie/Ghostline/discussions)
-- **Email**: athuljonnie@gmail.com
+- **Email**: athuljonnie93@gmail.com
 
 ---
 

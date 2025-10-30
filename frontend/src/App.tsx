@@ -1,4 +1,4 @@
-import { VoiceInterface } from './components/VoiceInterface';
+import { VoiceInterface } from './components/voice/VoiceInterface';
 
 function App() {
   return <VoiceInterface />;

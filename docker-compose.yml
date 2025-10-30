@@ -18,15 +18,23 @@ services:
       POSTGRES_PASSWORD: aipassword
       POSTGRES_DB: aiproject
       GROQ_API_KEY: ${GROQ_API_KEY}
+      DEEPGRAM_API_KEY: ${DEEPGRAM_API_KEY}
     command: uvicorn app:app --host 0.0.0.0 --port 8000 --reload
 
-  # frontend:
-  #   build: ./frontend
-  #   container_name: ai-agent-frontend
-  #   ports:
-  #     - "3000:3000"
-  #   depends_on:
-  #     - backend
+  frontend:
+    build: ./frontend
+    container_name: ai-agent-frontend
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./frontend:/app  # Mount entire frontend directory
+      - /app/node_modules  # Prevent overwriting node_modules
+    depends_on:
+      - backend
+    environment:
+      - VITE_API_URL=http://localhost:8000
+      - VITE_WS_URL=ws://localhost:8000
+      - CHOKIDAR_USEPOLLING=true  # Enable file watching in Docker
 
   db:
     image: postgres:15

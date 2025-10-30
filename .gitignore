@@ -38,7 +38,6 @@ frontend/.cache
 frontend/build/
 frontend/dist/
 frontend/coverage/
-
 # --- Docker ---
 data/
 volumes/
