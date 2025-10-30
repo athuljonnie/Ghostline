@@ -29,7 +29,12 @@ class Settings(BaseSettings):
     STT_COMPUTE_TYPE: str = "int8"
     DEEPGRAM_MODEL: str = "nova-2"  # Deepgram model: nova-2, nova, base, enhanced
     DEEPGRAM_LANGUAGE: str = "en"
-    
+
+# STT_PROVIDER: str = "whisper"
+# STT_MODEL: str = "base"
+# STT_DEVICE: str = "cpu"
+# STT_COMPUTE_TYPE: str = "int8"
+
     LLM_MODEL: str = "llama-3.1-8b-instant"
     LLM_TEMPERATURE: float = 0.7
     LLM_MAX_TOKENS: int = 512
